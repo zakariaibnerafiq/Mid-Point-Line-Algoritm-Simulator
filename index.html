@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- author -->
+  <meta name="author" content="Zakaria Ibne Rafiq">
+  <title>MIDPOINT Line Algorithm</title>
+
+  <style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    body{
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        background-color: rgb(32, 32, 36);
+        color: whitesmoke;
+    }
+    .container{
+        max-width: 1200px;
+        margin: 0 auto;
+        height: 100vh;
+    }
+    h1{
+        margin-bottom: 20px;
+    }
+    form{
+        
+        margin-bottom: 20px;
+    }
+    form h3{
+        margin-bottom: 10px;
+    }
+    form label{
+        display: inline-block;
+        margin-bottom: 10px;
+    }
+    form input{
+        padding: 5px;
+        margin-bottom: 10px;
+        background-color: rgb(32, 32, 36);
+        border: 1px solid rgb(77, 77, 77);
+        color: whitesmoke;
+        border-radius: 5px;
+    }
+    form button{
+        padding: 10px 20px;
+        background-color: rgb(77, 77, 77);
+        color: whitesmoke;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    #calculation{
+        margin-bottom: 20px;
+        display: grid;
+    }
+    #calculation p{
+        margin-bottom: 10px;
+    }
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 15px;
+    }
+
+    th, td {
+      padding: 5px;
+      border: 1px solid #5e5a5a;
+      text-align: center;
+    }
+
+    th {
+      background-color: #383737;
+    }
+    .mar{
+        margin-bottom: 20px;
+    }
+    
+  </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Input coordinates</h1>
+        <form>
+          <h3>From</h3>
+          <label for="x1">x1: </label>
+          <input type="number" id="x1" name="x1"  required>
+          <label for="y1">y1: </label>
+          <input type="number" id="y1" name="y1"  required>
+          <br>
+          <h3>To</h3>
+          <label for="x2">x2: </label>
+          <input type="number" id="x2" name="x2"  required>
+          <label for="y2">y2: </label>
+          <input type="number" id="y2" name="y2"  required>
+          <br>
+        
+          <button type="submit">Simulate</button>
+        </form>
+        <br>
+        <div id="calculation">
+        
+        </div>
+        <table id="number-table">
+        
+        </table>
+    <div class="mar"></div>
+    </div>
+
+  <script>
+    function zoneConversion(x, y, zone){
+        if (zone == 0){
+            return [x, y]
+        } else if (zone == 1){
+            return [y, x]
+        } else if (zone == 2){
+            return [-y,x]
+        } else if (zone == 3){
+            return [-x,y]
+        } else if (zone == 4){
+            return [-x,-y]
+        } else if (zone == 5){
+            return [-y,-x]
+        } else if (zone == 6){
+            return [y,-x]
+        } else if (zone == 7){
+            return [x,-y]
+        }
+        
+    }
+    function findzone(x1, y1, x2, y2){
+        console.log(x1, y1, x2, y2)
+        let dx = x2 - x1;
+        let dy = y2 - y1;
+        if (Math.abs(dx) > Math.abs(dy)){
+            if (dx > 0 && dy > 0){
+                return [0,[x1,y1],[x2,y2]]
+            } else if (dx < 0 && dy > 0){
+                return [3,[-x1,y1],[-x2,y2]]
+            } else if (dx < 0 && dy < 0){
+                return [4,[-x1, -y1],[-x2,-y2]]
+            } else if (dx > 0 && dy < 0){
+                return [7,[x1,-y1],[x2,-y2]]
+            }
+        } else {
+            if (dx > 0 && dy > 0){
+                return [1,[y1,x1],[y2,x2]]
+            } else if (dx < 0 && dy > 0){
+                return [2,[y1,-x1],[y2,-x2]]
+            } else if (dx < 0 && dy < 0){
+                console.log('here')
+                return [5,[-y1,-x1],[-y2,-x2]]
+
+            } else if (dx > 0 && dy < 0){
+                return [6,[-y1,x1],[-y2,x2]]
+            }
+        }
+    }
+    const form = document.querySelector('form');
+    const table = document.getElementById('number-table');
+    const calc = document.getElementById('calculation');
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const x1 = parseInt(document.getElementById('x1').value);
+        const y1 = parseInt(document.getElementById('y1').value);
+        const x2 = parseInt(document.getElementById('x2').value);
+        const y2 = parseInt(document.getElementById('y2').value);
+      
+
+        table.innerHTML = ''; // Clear the table before generating new one
+        let zone;
+      // Create table header and body
+        zone = findzone(x1, y1, x2, y2)
+        let x_0 = zone[1][0]
+        let y_0 = zone[1][1]
+        let x_1 = zone[2][0]
+        let y_1 = zone[2][1]
+        
+        calc.innerHTML = `  <p>dy = ${y2} - ${y1} = ${y2 - y1}</p>
+                            <p>dx = ${x2} - ${x1} = ${x2 - x1}</p>
+                            <p>m = dy / dx = ${y2 - y1} / ${x2 - x1} = ${(y2 - y1) / (x2 - x1)}</p>
+                            <p>Zone = ${zone[0]}</p>
+                            <p> After Zone Conversion</p>
+                            <p>Co-ordinate 1 = (${x_0}, ${y_0})</p>
+                            <p>Co-ordinate 2 = (${x_1}, ${y_1})</p>`;
+            
+
+        const tableBody = document.createElement('tbody'); // Add tbody for table body
+        const headerItems = ['xi', 'yi', 'di', 'E/ NE', 'Final Coordinate' ]; // Header items for table
+      // Create table body rows and cells
+    for (let i = 0; i < headerItems.length; i++) {
+        const tableHeader = document.createElement('th');
+        tableHeader.textContent = headerItems[i]; // Fill header cells with sequential numbers
+        table.appendChild(tableHeader);
+    }
+    let dx = x_1 - x_0;
+    let dy = y_1 - y_0;
+    let d = 2 * dy - dx;
+    let de = 2 * dy;
+    let dne = 2 * (dy - dx);
+    calc.innerHTML += `<p>d = 2 * ${dy} - ${dx} = ${d}</p>
+                        <p>de = 2 * ${dy} = ${de}</p>
+                        <p>dne = 2 * (${dy} - ${dx}) = ${dne}</p>`;
+    for (let i = x_0, j = y_0; i <= x_1; i++){
+        const tableRow = document.createElement('tr');
+        const tableCell1 = document.createElement('td');
+        const tableCell2 = document.createElement('td');
+        const tableCell3 = document.createElement('td');
+        const tableCell4 = document.createElement('td');
+        const tableCell5 = document.createElement('td');
+        tableCell1.textContent = i;
+        tableCell2.textContent = j;
+        tableCell3.textContent = d;
+        tableCell4.textContent = d < 0 ? 'E' : 'NE';
+        let k = zoneConversion(i, j, zone[0])
+        tableCell5.textContent = `(${k[0]}, ${k[1]})`;
+        tableRow.appendChild(tableCell1);
+        tableRow.appendChild(tableCell2);
+        tableRow.appendChild(tableCell3);
+        tableRow.appendChild(tableCell4);
+        tableRow.appendChild(tableCell5);
+        tableBody.appendChild(tableRow);
+        if (d < 0){
+            d = d + de;
+        } else {
+            d = d + dne;
+            j++;
+        }
+
+    }
+    table.appendChild(tableBody);
+    });
+
+  </script>
+</body>
+</html>
