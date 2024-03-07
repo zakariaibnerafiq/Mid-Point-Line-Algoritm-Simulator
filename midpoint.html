@@ -192,7 +192,7 @@
             
 
         const tableBody = document.createElement('tbody'); // Add tbody for table body
-        const headerItems = ['xi', 'yi', 'di', 'E/ NE', 'Final Coordinate' ]; // Header items for table
+        const headerItems = ['xi', 'yi', 'd','E/ NE', 'd_next', 'Final Coordinate' ]; // Header items for table
       // Create table body rows and cells
     for (let i = 0; i < headerItems.length; i++) {
         const tableHeader = document.createElement('th');
@@ -205,8 +205,8 @@
     let de = 2 * dy;
     let dne = 2 * (dy - dx);
     calc.innerHTML += `<p>d = 2 * ${dy} - ${dx} = ${d}</p>
-                        <p>de = 2 * ${dy} = ${de}</p>
-                        <p>dne = 2 * (${dy} - ${dx}) = ${dne}</p>`;
+                        <p>dE = 2 * ${dy} = ${de}</p>
+                        <p>dNE = 2 * (${dy} - ${dx}) = ${dne}</p>`;
     for (let i = x_0, j = y_0; i <= x_1; i++){
         const tableRow = document.createElement('tr');
         const tableCell1 = document.createElement('td');
@@ -214,17 +214,20 @@
         const tableCell3 = document.createElement('td');
         const tableCell4 = document.createElement('td');
         const tableCell5 = document.createElement('td');
+        const tableCell6 = document.createElement('td');
         tableCell1.textContent = i;
         tableCell2.textContent = j;
         tableCell3.textContent = d;
+        tableCell5.textContent = d < 0 ? `d+dE = ${d + de}` : `d+dNE = ${d + dne}`;
         tableCell4.textContent = d < 0 ? 'E' : 'NE';
         let k = zoneConversion(i, j, zone[0])
-        tableCell5.textContent = `(${k[0]}, ${k[1]})`;
+        tableCell6.textContent = `(${k[0]}, ${k[1]})`;
         tableRow.appendChild(tableCell1);
         tableRow.appendChild(tableCell2);
         tableRow.appendChild(tableCell3);
         tableRow.appendChild(tableCell4);
         tableRow.appendChild(tableCell5);
+        tableRow.appendChild(tableCell6);
         tableBody.appendChild(tableRow);
         if (d < 0){
             d = d + de;
