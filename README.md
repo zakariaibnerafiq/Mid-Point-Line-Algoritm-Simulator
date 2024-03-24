@@ -1,7 +1,7 @@
-Certainly, here is the README file for the code you provided:
+
 
 **README**
-
+Visit [Mid Point Line Algorithm Simulator](https://not-solucky.github.io/Mid-Point-Line-Algoritm-Simulator/) to use the tool.
 This code generates a midpoint line algorithm table. 
 
 **Input:**
