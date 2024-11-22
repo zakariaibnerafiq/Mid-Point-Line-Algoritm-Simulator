@@ -1,7 +1,7 @@
 
 
 **README**
-Visit [Mid Point Line Algorithm Simulator](https://not-solucky.github.io/Mid-Point-Line-Algoritm-Simulator/) to use the tool.
+Visit [Mid Point Line Algorithm Simulator](https://zakariaibnerafiq.github.io/Mid-Point-Line-Algoritm-Simulator/) to use the tool.
 This code generates a midpoint line algorithm table. 
 
 **Input:**
